@@ -34,8 +34,8 @@ def send_status_message(recipient_id, text):
 # Create your views here.
 def generate(request):
 	print(request)
-	if self.request.GET['hub.verify_token'] == '2318934571':
-            return HttpResponse(self.request.GET['hub.challenge'])
+	if request.GET['hub.verify_token'] == '2318934571':
+            return HttpResponse(request.GET['hub.challenge'])
 	user_text = request['message']['text']
 	send_status_message(request['sender']['id'], "Give us a second! We're working on it.")
 	# make a call to wit.ai.
