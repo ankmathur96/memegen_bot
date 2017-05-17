@@ -1,1 +1,1 @@
-web: gunicorn apartment_app.wsgi --log-file -
+web: gunicorn memegenbot.wsgi --log-file -
