@@ -42,7 +42,7 @@ def generate(request):
 				return HttpResponse(request.GET['hub.challenge'])
 		else:
 			return HttpResponse()
-	print(request.POST)
+	print(request.body)
 	all_messages = request.POST.get('entry')
 	for m in all_messages:
 		m = m['messaging']
