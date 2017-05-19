@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from . import consts
 import requests
 import json
@@ -33,6 +34,7 @@ def send_status_message(recipient_id, text):
 	return send_response
 
 # Create your views here.
+@csrf_exempt
 def generate(request):
 	print(request)
 	if request.GET['hub.verify_token'] == '2318934571':
