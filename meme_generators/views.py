@@ -43,7 +43,7 @@ def generate(request):
 		else:
 			return HttpResponse()
 	all_messages = request.POST.get('entry')
-	for m in messages:
+	for m in all_messages:
 		m = m['messaging']
 		user_text = m['message']['text']
 		send_status_message(m['sender']['id'], "Give us a second! We're working on it.")
