@@ -37,8 +37,11 @@ def send_status_message(recipient_id, text):
 @csrf_exempt
 def generate(request):
 	print(request)
-	if request.GET['hub.verify_token'] == '2318934571':
-            return HttpResponse(request.GET['hub.challenge'])
+	if request.method == 'GET':
+		if 'hub.verify_token' in request.GET and request.GET['hub.verify_token'] == '2318934571':
+				return HttpResponse(request.GET['hub.challenge'])
+		else:
+			return HttpResponse()
 	user_text = request['message']['text']
 	send_status_message(request['sender']['id'], "Give us a second! We're working on it.")
 	# make a call to wit.ai.
