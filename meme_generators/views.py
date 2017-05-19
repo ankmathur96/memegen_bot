@@ -43,7 +43,7 @@ def generate(request):
 		else:
 			return HttpResponse()
 	print(request.body)
-	all_messages = request.POST.get('entry')
+	all_messages = json.loads(request.body)
 	for m in all_messages:
 		m = m['messaging']
 		user_text = m['message']['text']
