@@ -42,15 +42,18 @@ def generate(request):
 				return HttpResponse(request.GET['hub.challenge'])
 		else:
 			return HttpResponse()
-	user_text = request['message']['text']
-	send_status_message(request['sender']['id'], "Give us a second! We're working on it.")
-	# make a call to wit.ai.
-	response = parse_user_input(user_text)
-	meme_type, caption_top, caption_bottom = parse_from_wit(response)
-	# make a call to imageflip
-	payload_url = meme_through_imgflip(meme_type, caption_top, caption_bottom)
-	response_payload = {'recipient' : {'id': request['sender']['id']}}
-	response_payload['message'] = {'attachment' : {'type' : 'image', 'payload' : {'url' : payload_url, 'is_reusable'  :True}}}
-	send_response = requests.post(SEND, response_payload)
-	# store send response reusable FBID.
-	return JsonResponse({'status' : 'success'})
+	all_messages = request['entry']
+	for m in messages:
+		m = m['messaging']
+		user_text = m['message']['text']
+		send_status_message(m['sender']['id'], "Give us a second! We're working on it.")
+		# make a call to wit.ai.
+		response = parse_user_input(user_text)
+		meme_type, caption_top, caption_bottom = parse_from_wit(response)
+		# make a call to imageflip
+		payload_url = meme_through_imgflip(meme_type, caption_top, caption_bottom)
+		response_payload = {'recipient' : {'id': m['sender']['id']}}
+		response_payload['message'] = {'attachment' : {'type' : 'image', 'payload' : {'url' : payload_url, 'is_reusable'  :True}}}
+		send_response = requests.post(SEND, response_payload)
+		# store send response reusable FBID.
+		return HttpResponse(status=200)
